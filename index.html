@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dela Cerna Website</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- PROFILE PHOTO -->
+<img src="celophoto.jpeg" class="profile-img" alt="Profile Photo">
+
+<!-- NAVIGATION -->
+<header>
+<nav>
+<ul>
+<li><a href="#" onclick="showSection('home')">Home</a></li>
+<li><a href="#" onclick="showSection('about')">About Us</a></li>
+<li><a href="#" onclick="showSection('register')">Register</a></li>
+<li><a href="#" onclick="showSection('login')">Login</a></li>
+</ul>
+</nav>
+</header>
+
+<!-- HOME SECTION -->
+<section id="home" class="active">
+<h1>Welcome to Dela Cerna Website</h1>
+<p>You are successfully logged in or registered 🎉</p>
+</section>
+
+<!-- ABOUT US SECTION -->
+<section id="about">
+<h1>About Us</h1>
+<p>
+This website is created by Dela Cerna.<br>
+It demonstrates a simple Register and Login system using HTML, CSS, and JavaScript.
+</p>
+</section>
+
+<!-- REGISTER SECTION -->
+<section id="register">
+<h2>Register</h2>
+<form id="registerForm">
+<input type="text" id="regUsername" placeholder="Username" required>
+<input type="email" id="regEmail" placeholder="Email" required>
+<input type="password" id="regPassword" placeholder="Password" required>
+<button type="submit">Register</button>
+</form>
+
+<h3>Registered Users</h3>
+<table id="userTable">
+<thead>
+<tr>
+<th>Username</th>
+<th>Email</th>
+<th>Password</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</section>
+
+<!-- LOGIN SECTION -->
+<section id="login">
+<h2>Login</h2>
+<form id="loginForm">
+<input type="text" id="loginUsername" placeholder="Username" required>
+<input type="password" id="loginPassword" placeholder="Password" required>
+<button type="submit">Login</button>
+</form>
+</section>
+
+<script>
+let users = [];
+
+// Navigation function
+function showSection(id) {
+    document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+}
+
+// Register
+document.getElementById("registerForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    const username = document.getElementById("regUsername").value;
+    const email = document.getElementById("regEmail").value;
+    const password = document.getElementById("regPassword").value;
+
+    users.push({username, email, password});
+
+    // Add to table
+    const tableBody = document.querySelector("#userTable tbody");
+    const row = document.createElement("tr");
+    row.innerHTML = `<td>${username}</td><td>${email}</td><td>${password}</td>`;
+    tableBody.appendChild(row);
+
+    alert("Registration Successful!");
+    this.reset();
+
+    // Show Home after register
+    showSection("home");
+});
+
+// Login
+document.getElementById("loginForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    const username = document.getElementById("loginUsername").value;
+    const password = document.getElementById("loginPassword").value;
+
+    const found = users.find(u => u.username === username && u.password === password);
+
+    if(found){
+        alert("Login Successful! Welcome " + username);
+        showSection("home");
+    } else {
+        alert("Invalid Username or Password!");
+    }
+
+    this.reset();
+});
+</script>
+
+</body>
+</html>
